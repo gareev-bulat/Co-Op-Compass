@@ -1,8 +1,12 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { createClient } from "@/app/utils/supabase/client";
+import { Application, Company } from "@/app/data/dataTypes";
 import { ActivityEntry } from "@/app/components/activityEntry";
 import { PositionEntry } from "@/app/components/positionEntry";
 import { QuickAction } from "@/app/components/quickAction";
 import { ApplicationStatus } from "@/app/data/dataTypes";
-import { applications, companies } from "@/app/data/mockedSupabaseData";
 import { ChevronRight, SquarePlus, Calendar, FileText } from "lucide-react";
 
 //5 past activities
@@ -49,29 +53,50 @@ const statusConfig = {
   Rejected: { color: "text-red-400", border: "border-red-400" },
 };
 
-const columns = (
-  [
-    "Applied",
-    "Interview",
-    "Waitlist",
-    "Offer",
-    "Rejected",
-  ] as ApplicationStatus[]
-).map((status) => ({
-  label: status,
-  color: statusConfig[status].color,
-  border: statusConfig[status].border,
-  companies: applications
-    .filter((app) => app.status === status)
-    .map((app) => ({
-      position_id: app.id,
-      name: companies.find((c) => c.id === app.company_id)?.name ?? "Unknown",
-      position: app.role_title,
-    })),
-  value: applications.filter((app) => app.status === status).length,
-}));
-
 export default function DashboardPage() {
+  const [applications, setApplications] = useState<Application[]>([]);
+  const [companies, setCompanies] = useState<Company[]>([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const supabase = createClient();
+
+      const { data: applicationsData } = await supabase
+        .from("applications")
+        .select("*");
+
+      const { data: companiesData } = await supabase
+        .from("companies")
+        .select("*");
+
+      setApplications(applicationsData ?? []);
+      setCompanies(companiesData ?? []);
+    }
+    fetchData();
+  }, []);
+
+  const columns = (
+    [
+      "Applied",
+      "Interview",
+      "Waitlist",
+      "Offer",
+      "Rejected",
+    ] as ApplicationStatus[]
+  ).map((status) => ({
+    label: status,
+    color: statusConfig[status].color,
+    border: statusConfig[status].border,
+    companies: applications
+      .filter((app) => app.status === status)
+      .map((app) => ({
+        position_id: app.id,
+        name: companies.find((c) => c.id === app.company_id)?.name ?? "Unknown",
+        position: app.role_title,
+      })),
+    value: applications.filter((app) => app.status === status).length,
+  }));
+
   return (
     <div className="text-white">
       <h1 className="text-2xl font-bold mb-6">Dashboard</h1>
