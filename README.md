@@ -5,7 +5,7 @@ Track applications, visualize pipeline progress, and analyze trends.
 
 
 ## Screenshots
-[add screenshots here]
+<img width="1710" height="986" alt="Screenshot 2026-05-12 at 6 47 45 PM" src="https://github.com/user-attachments/assets/631a7109-a1f2-47fc-aca3-fefdfb2cfb59" />
 
 
 ## What it does
