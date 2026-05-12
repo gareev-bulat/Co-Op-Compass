@@ -10,41 +10,6 @@ import { ApplicationStatus } from "@/app/data/dataTypes";
 import { ChevronRight, SquarePlus, Calendar, FileText } from "lucide-react";
 import Link from "next/link";
 
-//5 past activities
-const recent_activity = {
-  actions: [
-    {
-      name: "Vanguard",
-      position_id: "1",
-      label: "You added Vanguard application",
-      time: "2026-05-11",
-    },
-    {
-      name: "Vanguard",
-      position_id: "2",
-      label: "You added Vanguard application",
-      time: "2026-05-11",
-    },
-    {
-      name: "Vanguard",
-      position_id: "3",
-      label: "You added Vanguard application",
-      time: "2026-05-11",
-    },
-    {
-      name: "Vanguard",
-      position_id: "4",
-      label: "You added Vanguard application",
-      time: "2026-05-11",
-    },
-    {
-      name: "Vanguard",
-      position_id: "5",
-      label: "You added Vanguard application",
-      time: "2026-05-11",
-    },
-  ],
-};
 
 const statusConfig = {
   Applied: { color: "text-blue-400", border: "border-blue-400" },
