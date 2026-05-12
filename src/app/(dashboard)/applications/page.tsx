@@ -1,8 +1,9 @@
 "use client";
 
-import { Plus, Search, SlidersHorizontal, List } from "lucide-react";
+import { Plus, Search } from "lucide-react";
 import { applications, companies } from "@/app/data/mockedSupabaseData";
 import { useState } from "react";
+import Link from "next/link";
 
 const tabs = ["All", "Applied", "Screening", "Interview", "Offer", "Rejected"];
 
@@ -28,14 +29,14 @@ export default function ApplicationsPage() {
   const [input, setInput] = useState("");
 
   const filteredApplications = applications.filter((a) => {
-    const company = companies.find((c) => c.id === a.companyId);
+    const company = companies.find((c) => c.id === a.company_id);
 
     const matchesTab = activeTab === "All" || a.status === activeTab;
 
     const searchValue = input.toLowerCase();
 
     const matchesSearch =
-      a.roleTitle.toLowerCase().includes(searchValue) ||
+      a.role_title.toLowerCase().includes(searchValue) ||
       a.status.toLowerCase().includes(searchValue) ||
       company?.name.toLowerCase().includes(searchValue);
 
@@ -49,10 +50,15 @@ export default function ApplicationsPage() {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-bold">Applications</h1>
 
-          <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500 transition">
-            <Plus className="h-4 w-4" />
-            Add Application
-          </button>
+          <Link
+            href="/add"
+            className="flex items-center gap-3 px-4 py-3 rounded-lg"
+          >
+            <button className="flex items-center gap-2 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500 transition">
+              <Plus className="h-4 w-4" />
+              Add Application
+            </button>
+          </Link>
         </div>
 
         {/* Tabs */}
@@ -87,22 +93,12 @@ export default function ApplicationsPage() {
               className="w-full rounded-lg bg-white/5 py-3 pl-10 pr-4 text-sm text-white placeholder:text-gray-400 outline-none border border-white/5 focus:border-blue-400"
             />
           </div>
-
-          <div className="flex items-center gap-3">
-            <button className="rounded-lg bg-white/5 p-3 hover:bg-white/10 transition">
-              <SlidersHorizontal className="h-4 w-4 text-gray-300" />
-            </button>
-
-            <button className="rounded-lg bg-white/5 p-3 hover:bg-white/10 transition">
-              <List className="h-4 w-4 text-gray-300" />
-            </button>
-          </div>
         </div>
 
         {/* Application list */}
         <div className="overflow-hidden rounded-xl border border-white/5">
           {filteredApplications.map((a) => {
-            const company = companies.find((c) => c.id === a.companyId);
+            const company = companies.find((c) => c.id === a.company_id);
             return (
               <div
                 key={a.id}
@@ -117,7 +113,7 @@ export default function ApplicationsPage() {
                     <h2 className="font-bold text-sm text-white">
                       {company?.name}
                     </h2>
-                    <p className="text-sm text-gray-400">{a.roleTitle}</p>
+                    <p className="text-sm text-gray-400">{a.role_title}</p>
                   </div>
                 </div>
 
