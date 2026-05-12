@@ -3,17 +3,14 @@
 A full-stack co-op application tracking platform built for Drexel students.
 Track applications, visualize pipeline progress, and analyze trends.
 
----
 
 ## Screenshots
 [add screenshots here]
 
----
 
 ## What it does
 Students add their co-op applications and track them through a kanban pipeline â€” Applied, Interview, Waitlist, Offer, Rejected. The analytics page visualizes application trends and status breakdowns over time.
 
----
 
 ## Tech Stack
 - Next.js 15 + TypeScript
@@ -22,7 +19,6 @@ Students add their co-op applications and track them through a kanban pipeline â
 - Recharts
 - Vercel (deployment)
 
----
 
 ## Features
 - Kanban pipeline with real-time status updates
@@ -31,7 +27,6 @@ Students add their co-op applications and track them through a kanban pipeline â
 - Analytics dashboard with area chart and status breakdown
 - Recent activity and upcoming deadlines on dashboard
 
----
 
 ## How to Run
 1. Clone the repo
