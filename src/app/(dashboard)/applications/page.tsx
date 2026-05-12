@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { Plus, Search, SlidersHorizontal, List } from "lucide-react";
 import { applications, companies } from "@/app/data/mockedSupabaseData";
@@ -24,8 +24,7 @@ function getStatusStyle(status: string) {
 }
 
 export default function ApplicationsPage() {
-
-  const [activeTab, setActiveTab] = useState(tabs[0])
+  const [activeTab, setActiveTab] = useState(tabs[0]);
 
   return (
     <section className="text-white">
@@ -87,41 +86,41 @@ export default function ApplicationsPage() {
           {applications
             .filter((a) => a.status.includes(activeTab))
             .map((a) => {
-            const company = companies.find((c) => c.id === a.companyId);
-            return (
-              <div
-                key={a.id}
-                className="grid grid-cols-[1.8fr_0.6fr_1fr_1fr] items-center gap-4 border-b border-white/5 bg-white/3 px-5 py-4 last:border-b-0 hover:bg-white/6 transition"
-              >
-                {/* Company */}
-                <div className="flex items-center gap-4">
-                  <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-white text-sm font-bold text-black">
-                    {company?.name.charAt(0)}
+              const company = companies.find((c) => c.id === a.companyId);
+              return (
+                <div
+                  key={a.id}
+                  className="grid grid-cols-[1.8fr_0.6fr_1fr_1fr] items-center gap-4 border-b border-white/5 bg-white/3 px-5 py-4 last:border-b-0 hover:bg-white/6 transition"
+                >
+                  {/* Company */}
+                  <div className="flex items-center gap-4">
+                    <div className="flex h-11 w-11 items-center justify-center rounded-lg bg-white text-sm font-bold text-black">
+                      {company?.name.charAt(0)}
+                    </div>
+                    <div>
+                      <h2 className="font-bold text-sm text-white">
+                        {company?.name}
+                      </h2>
+                      <p className="text-sm text-gray-400">{a.roleTitle}</p>
+                    </div>
                   </div>
+
+                  {/* Status */}
                   <div>
-                    <h2 className="font-bold text-sm text-white">
-                      {company?.name}
-                    </h2>
-                    <p className="text-sm text-gray-400">{a.roleTitle}</p>
+                    <span
+                      className={`rounded-full px-4 py-1 text-xs font-bold ${getStatusStyle(a.status)}`}
+                    >
+                      {a.status}
+                    </span>
                   </div>
-                </div>
 
-                {/* Status */}
-                <div>
-                  <span
-                    className={`rounded-full px-4 py-1 text-xs font-bold ${getStatusStyle(a.status)}`}
-                  >
-                    {a.status}
-                  </span>
+                  {/* Date */}
+                  <p className="text-sm font-semibold text-gray-300 text-right">
+                    {a.deadline ?? "—"}
+                  </p>
                 </div>
-
-                {/* Date */}
-                <p className="text-sm font-semibold text-gray-300 text-right">
-                  {a.deadline ?? "—"}
-                </p>
-              </div>
-            );
-          })}
+              );
+            })}
         </div>
       </div>
     </section>
