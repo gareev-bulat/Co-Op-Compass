@@ -1,4 +1,4 @@
-# 🧭 Co-Op Compass
+# Co-Op Compass
 
 A full-stack co-op application tracking platform built for Drexel students.
 Track applications, visualize pipeline progress, and analyze trends.
