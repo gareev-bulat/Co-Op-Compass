@@ -10,7 +10,6 @@ import { ApplicationStatus } from "@/app/data/dataTypes";
 import { ChevronRight, SquarePlus, Calendar, FileText } from "lucide-react";
 import Link from "next/link";
 
-
 const statusConfig = {
   Applied: { color: "text-blue-400", border: "border-blue-400" },
   Interview: { color: "text-purple-400", border: "border-purple-400" },
@@ -23,21 +22,22 @@ export default function DashboardPage() {
   const [applications, setApplications] = useState<Application[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
 
+  async function fetchData() {
+    const supabase = createClient();
+
+    const { data: applicationsData } = await supabase
+      .from("applications")
+      .select("*");
+
+    const { data: companiesData } = await supabase
+      .from("companies")
+      .select("*");
+
+    setApplications(applicationsData ?? []);
+    setCompanies(companiesData ?? []);
+  }
+
   useEffect(() => {
-    async function fetchData() {
-      const supabase = createClient();
-
-      const { data: applicationsData } = await supabase
-        .from("applications")
-        .select("*");
-
-      const { data: companiesData } = await supabase
-        .from("companies")
-        .select("*");
-
-      setApplications(applicationsData ?? []);
-      setCompanies(companiesData ?? []);
-    }
     fetchData();
   }, []);
 
@@ -88,7 +88,11 @@ export default function DashboardPage() {
             {/* Company cards */}
             <div className="flex flex-col gap-2 max-h-80 overflow-y-auto">
               {column.companies.map((company) => (
-                <PositionEntry key={company.position_id} company={company} />
+                <PositionEntry
+                  key={company.position_id}
+                  company={company}
+                  onStatusChange={fetchData}
+                />
               ))}
             </div>
           </div>
