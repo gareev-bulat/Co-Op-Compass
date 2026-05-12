@@ -1,9 +1,10 @@
 "use client";
 
 import { Plus, Search } from "lucide-react";
-import { applications, companies } from "@/app/data/mockedSupabaseData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Link from "next/link";
+import { Application, Company } from "@/app/data/dataTypes";
+import { createClient } from "@/app/utils/supabase/client";
 
 const tabs = ["All", "Applied", "Screening", "Interview", "Offer", "Rejected"];
 
@@ -27,6 +28,28 @@ function getStatusStyle(status: string) {
 export default function ApplicationsPage() {
   const [activeTab, setActiveTab] = useState(tabs[0]);
   const [input, setInput] = useState("");
+
+  const [applications, setApplications] = useState<Application[]>([])
+  const [companies, setCompanies] = useState<Company[]>([])
+
+  useEffect(() => {
+    async function fetchSupabaseData() {
+      const supabase = createClient()
+
+      const {data: applicationsData} = await supabase
+        .from("applications")
+        .select("*")
+        .order("created_at", { ascending: false })
+
+      const {data: companiesData} = await supabase
+        .from("companies")
+        .select("*")
+
+      setApplications(applicationsData ?? [])
+      setCompanies(companiesData ?? [])
+    }
+    fetchSupabaseData()
+  }, [])
 
   const filteredApplications = applications.filter((a) => {
     const company = companies.find((c) => c.id === a.company_id);
