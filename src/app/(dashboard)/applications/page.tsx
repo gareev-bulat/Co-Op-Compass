@@ -84,11 +84,13 @@ export default function ApplicationsPage() {
 
         {/* Application list */}
         <div className="overflow-hidden rounded-xl border border-white/5">
-          {applications.map((app) => {
-            const company = companies.find((c) => c.id === app.companyId);
+          {applications
+            .filter((a) => a.status.includes(activeTab))
+            .map((a) => {
+            const company = companies.find((c) => c.id === a.companyId);
             return (
               <div
-                key={app.id}
+                key={a.id}
                 className="grid grid-cols-[1.8fr_0.6fr_1fr_1fr] items-center gap-4 border-b border-white/5 bg-white/3 px-5 py-4 last:border-b-0 hover:bg-white/6 transition"
               >
                 {/* Company */}
@@ -100,22 +102,22 @@ export default function ApplicationsPage() {
                     <h2 className="font-bold text-sm text-white">
                       {company?.name}
                     </h2>
-                    <p className="text-sm text-gray-400">{app.roleTitle}</p>
+                    <p className="text-sm text-gray-400">{a.roleTitle}</p>
                   </div>
                 </div>
 
                 {/* Status */}
                 <div>
                   <span
-                    className={`rounded-full px-4 py-1 text-xs font-bold ${getStatusStyle(app.status)}`}
+                    className={`rounded-full px-4 py-1 text-xs font-bold ${getStatusStyle(a.status)}`}
                   >
-                    {app.status}
+                    {a.status}
                   </span>
                 </div>
 
                 {/* Date */}
                 <p className="text-sm font-semibold text-gray-300 text-right">
-                  {app.deadline ?? "—"}
+                  {a.deadline ?? "—"}
                 </p>
               </div>
             );
