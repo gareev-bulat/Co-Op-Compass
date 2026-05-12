@@ -8,6 +8,7 @@ import { PositionEntry } from "@/app/components/positionEntry";
 import { QuickAction } from "@/app/components/quickAction";
 import { ApplicationStatus } from "@/app/data/dataTypes";
 import { ChevronRight, SquarePlus, Calendar, FileText } from "lucide-react";
+import Link from "next/link";
 
 //5 past activities
 const recent_activity = {
@@ -156,16 +157,31 @@ export default function DashboardPage() {
           <h1 className="text-1xl font-bold mb-6">Recent Activity</h1>
 
           <div className="flex flex-col gap-2 max-h-64 overflow-y-auto">
-            {recent_activity.actions.map((action) => (
-              <ActivityEntry key={action.position_id} action={action} />
-            ))}
+            {applications.slice(0, 5).map((app) => {
+              const companyName =
+                companies.find((c) => c.id === app.company_id)?.name ??
+                "Unknown";
+              return (
+                <ActivityEntry
+                  key={app.id}
+                  action={{
+                    position_id: app.id,
+                    name: companyName,
+                    label: `You added ${companyName} application`,
+                    time: app.created_at ?? "",
+                  }}
+                />
+              );
+            })}
           </div>
         </div>
         {/*Quick actions box*/}
         <div className="bg-brand-dark rounded-xl p-4">
           <h1 className="text-1xl font-bold mb-6">Quick Actions</h1>
           <div className="space-y-2">
-            <QuickAction label="Add Application" icon={SquarePlus} />
+            <Link className="space-y-3" href="/add">
+              <QuickAction label="Add Application" icon={SquarePlus} />
+            </Link>
             <QuickAction label="View Calendar" icon={Calendar} />
             <QuickAction label="Upload Document" icon={FileText} />
           </div>
