@@ -104,6 +104,7 @@ export default function DashboardPage() {
         ))}
       </div>
 
+      {/*Deadlines box*/}
       <div className="grid grid-cols-3 gap-4 mt-6">
         <div className="bg-brand-dark rounded-xl p-4">
           <h1 className="text-1xl font-bold mb-6">Upcoming Deadlines</h1>
@@ -125,6 +126,7 @@ export default function DashboardPage() {
               ))}
           </div>
         </div>
+        {/*Recent Activity box*/}
         <div className="bg-brand-dark rounded-xl p-4">
           <h1 className="text-1xl font-bold mb-6">Recent Activity</h1>
 
@@ -134,6 +136,7 @@ export default function DashboardPage() {
             ))}
           </div>
         </div>
+        {/*Quick actions box*/}
         <div className="bg-brand-dark rounded-xl p-4">
           <h1 className="text-1xl font-bold mb-6">Quick Actions</h1>
           <div className="space-y-2">

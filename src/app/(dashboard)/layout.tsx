@@ -10,6 +10,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <span className="text-brand-yellow font-bold text-lg">CO-OP COMPASS</span>
         </div>
 
+        {/*NavBar*/}
         <nav className="flex flex-col gap-2">
           <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg hover:bg-white/10">
             <LayoutDashboard className="w-5 h-5" />
