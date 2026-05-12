@@ -10,15 +10,17 @@ export type Company = {
   name: string;
   location?: string;
   website?: string;
+  external_company_id?: string;  
 };
 
 export type Application = {
   id: string;
-  companyId: string;
-  roleTitle: string;
+  company_id: string;
+  role_title: string;
   status: ApplicationStatus;
   deadline?: string;
-  link?: string;
   notes?: string;
-  jobDescription?: string;
+  job_description?: string;
+  external_application_id: string;
+  created_at?: string;
 };

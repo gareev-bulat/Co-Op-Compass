@@ -65,8 +65,8 @@ const columns = (
     .filter((app) => app.status === status)
     .map((app) => ({
       position_id: app.id,
-      name: companies.find((c) => c.id === app.companyId)?.name ?? "Unknown",
-      position: app.roleTitle,
+      name: companies.find((c) => c.id === app.company_id)?.name ?? "Unknown",
+      position: app.role_title,
     })),
   value: applications.filter((app) => app.status === status).length,
 }));
@@ -118,9 +118,9 @@ export default function DashboardPage() {
                   company={{
                     position_id: app.id,
                     name:
-                      companies.find((c) => c.id === app.companyId)?.name ??
+                      companies.find((c) => c.id === app.company_id)?.name ??
                       "Unknown",
-                    position: app.roleTitle,
+                    position: app.role_title,
                   }}
                 />
               ))}
