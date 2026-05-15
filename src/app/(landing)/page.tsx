@@ -23,11 +23,11 @@ export default function Home() {
 
         <div className="flex gap-4 mt-8">
           <Link href="/dashboard">
-            <button className="bg-brand-yellow text-black font-semibold px-6 py-3 rounded-full">
+            <button className="bg-brand-yellow text-black font-semibold px-6 py-3 rounded-full cursor-pointer transition-all duration-200 hover:scale-105 hover:brightness-110">
               Get Started
             </button>
           </Link>
-          <button className="border border-white text-white px-6 py-3 rounded-full">
+          <button className="border border-white text-white px-6 py-3 rounded-full cursor-pointer transition-all duration-200 hover:scale-105 hover:bg-white/10">
             Learn More
           </button>
         </div>
