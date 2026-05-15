@@ -27,9 +27,11 @@ export default function Home() {
               Get Started
             </button>
           </Link>
+          <Link href="/learn-more">
           <button className="border border-white text-white px-6 py-3 rounded-full cursor-pointer transition-all duration-200 hover:scale-105 hover:bg-white/10">
             Learn More
           </button>
+          </Link>
         </div>
 
         <p className="mt-8 text-gray-400 text-sm flex items-center gap-2">
