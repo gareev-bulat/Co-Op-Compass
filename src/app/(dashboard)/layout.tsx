@@ -6,9 +6,11 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
     <div className="flex min-h-screen bg-brand-darker text-white">
       <aside className="w-64 bg-brand-dark flex flex-col p-6 gap-8">
         
-        <div className="flex items-center gap-3">
+        <Link href="/">
+        <div className="flex items-center gap-3 hover:brightness-110 hover:scale-105 transition-opacity duration-300">
           <span className="text-brand-yellow font-bold text-lg">CO-OP COMPASS</span>
         </div>
+        </Link>
 
         {/*NavBar*/}
         <nav className="flex flex-col gap-2">

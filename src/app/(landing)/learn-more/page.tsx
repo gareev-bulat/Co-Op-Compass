@@ -1,11 +1,15 @@
+import Link from "next/link";
+
 export default function LearnMorePage() {
   return (
     <div className="min-h-screen bg-[url('/bg.png')] bg-cover bg-center text-white">
       <nav className="flex items-center px-8 py-6">
+        <Link href="/" className="hover:brightness-110 hover:scale-105 transition-opacity duration-300">
         <span className="text-brand-yellow font-bold text-xl">
           CO-OP COMPASS
         </span>
-      </nav>
+        </Link>
+      </nav>  
 
       <section className="max-w-3xl mx-auto px-8 py-20 text-center">
         <h1 className="text-5xl font-bold mb-6">Why Co-Op Compass?</h1>
