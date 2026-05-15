@@ -6,7 +6,7 @@ import Link from "next/link";
 import { Application, Company } from "@/app/data/dataTypes";
 import { createClient } from "@/app/utils/supabase/client";
 
-const tabs = ["All", "Applied", "Screening", "Interview", "Offer", "Rejected"];
+const tabs = ["All", "Applied", "Waitlist", "Interview", "Offer", "Rejected"];
 
 function getStatusStyle(status: string) {
   switch (status) {
