@@ -1,0 +1,16 @@
+Software Engineering Co-op — Fall 2026
+TechFlow Inc. (Series B startup, remote-friendly, Boston HQ)
+
+We're hiring a Software Engineering Co-op for the Fall/Winter 2026-27 term
+(6 months, full-time, paid at $32/hr).
+
+What you'll do:
+- Build features across our Next.js + TypeScript frontend and Supabase backend
+- Ship small, well-tested PRs weekly with mentor code review
+- Touch internal tools that use LLM APIs for support ticket triage
+
+Requirements:
+- Comfortable with JavaScript/TypeScript; React a plus
+- Enrolled in a CS or related program (any year welcome)
+- Open to F-1/CPT candidates — we handle co-op work authorization
+- No prior professional experience required

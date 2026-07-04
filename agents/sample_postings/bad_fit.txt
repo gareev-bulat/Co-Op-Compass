@@ -1,0 +1,11 @@
+Cleared Software Developer — Summer 2027 Internship
+Raytheon Defense Systems
+
+Seeking a rising Junior or Senior for our Summer 2027 program supporting
+classified DoD radar systems.
+
+Requirements:
+- Must be a U.S. citizen (active or interim SECRET clearance required)
+- Rising junior or senior standing only
+- Strong C++ and embedded systems experience
+- This is an unpaid, academic-credit-only position

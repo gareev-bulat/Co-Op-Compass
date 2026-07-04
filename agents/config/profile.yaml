@@ -1,0 +1,97 @@
+name: "Bulat Gareev"
+year: "Sophomore"
+major: "Computer Science"
+minor: "Data Science"
+gpa: 3.63
+graduation: "June 2029"
+university: "Drexel University"
+location: "Philadelphia, PA"
+availability: "September 22, 2026 – March 26, 2027"
+tracks:
+  mobile:
+    - Kotlin
+    - Swift
+    - Jetpack Compose
+    - SwiftUI
+    - React Native
+    - Android SDK
+    - LiveKit (WebRTC)
+    - Firebase Auth
+    - Firebase Firestore
+    - Firebase Storage
+    - Firebase Cloud Functions
+    - SwiftData
+    - MVVM architecture
+  full_stack:
+    - TypeScript
+    - JavaScript
+    - Next.js
+    - React
+    - Tailwind CSS
+    - Node.js
+    - Supabase (PostgreSQL)
+    - REST APIs
+    - Vercel
+  ai_integration:
+    - LLM API integration
+    - Groq API
+    - Google Gemini API
+    - Custom prompt engineering
+    - CrewAI
+    - Claude API
+  backend:
+    - Firebase Cloud Functions
+    - JWT minting
+    - Python
+    - Django
+    - Flask
+    - SQLite
+  tools:
+    - Git
+    - CI/CD
+    - Agile/Scrum
+    - Figma
+resumes:
+  - id: "mobile"
+    file: "Bulat_Resume_Mobile.pdf"
+    emphasis: "iOS/Android, React Native, Kotlin/Swift, mobile projects (Nomiyo, RESET)"
+  - id: "general"
+    file: "Bulat_Resume_General.pdf"
+    emphasis: "Full-stack + AI: Next.js/TypeScript/Supabase, LLM integration (Co-op Compass, HeadlineTrader)"
+experience:
+  - company: "URBN (Nuuly)"
+    role: "Android Engineer Co-op"
+    duration: "6 months"
+    highlights:
+      - "Production Android features in Kotlin and Jetpack Compose"
+      - "Built self-service returns app from scratch (MVVM, CI/CD, scanner integration)"
+      - "Presented to 50+ stakeholders at Sprint Review"
+projects:
+  - name: "Nomiyo"
+    stack: ["React Native", "TypeScript", "LiveKit", "WebRTC", "Firebase"]
+    type: "mobile"
+  - name: "Co-op Compass"
+    stack: ["Next.js", "TypeScript", "Supabase", "Recharts"]
+    type: "full_stack"
+  - name: "RESET"
+    stack: ["Swift", "SwiftUI", "Groq API", "SwiftData"]
+    type: "ai_integration"
+  - name: "HeadlineTrader"
+    stack: ["Next.js", "TypeScript", "Gemini API", "MongoDB"]
+    type: "ai_integration"
+hard_filters:
+  - "Must be open to F-1/CPT/international students — no sponsorship needed for co-op"
+  - "No security clearance or defense/government contractor requirement"
+  - "No US citizenship requirement"
+  - "Fall/Winter 2026-27 cycle (September 22, 2026 – March 26, 2027)"
+  - "Sophomore-eligible — not restricted to junior/senior/graduate only"
+  - "Paid position only — minimum $15/hr"
+  - "No unpaid internships"
+  - "Minimum 40 hours/week (or verified CPT-eligible part-time)"
+  - "No embedded systems requiring C++ or circuit knowledge"
+  - "No pure data entry, IT support, or desktop support roles"
+preferred:
+  - "Software engineering, full-stack, mobile, or AI/ML roles"
+  - "Companies with Drexel co-op history"
+  - "Philadelphia area or remote"
+  - "Stack overlap with TypeScript, Python, React, or mobile"
