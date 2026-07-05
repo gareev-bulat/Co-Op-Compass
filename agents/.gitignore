@@ -1,3 +1,6 @@
 .venv/
 .env
 __pycache__/
+listings_cache.json
+listings_cache.json
+finder_raw_output.txt
