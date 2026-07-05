@@ -80,16 +80,17 @@ projects:
     stack: ["Next.js", "TypeScript", "Gemini API", "MongoDB"]
     type: "ai_integration"
 hard_filters:
-  - "Must be open to F-1/CPT/international students — no sponsorship needed for co-op"
   - "No security clearance or defense/government contractor requirement"
   - "No US citizenship requirement"
-  - "Fall/Winter 2026-27 cycle (September 22, 2026 – March 26, 2027)"
-  - "Sophomore-eligible — not restricted to junior/senior/graduate only"
-  - "Paid position only — minimum $15/hr"
-  - "No unpaid internships"
-  - "Minimum 40 hours/week (or verified CPT-eligible part-time)"
-  - "No embedded systems requiring C++ or circuit knowledge"
+  - "Sophomore-eligible — not restricted to junior/senior/graduate/PhD only"
+  - "SWE, mobile, full-stack, or AI/ML software role — NOT hardware, embedded, circuit, or firmware"
+  - "Fall/Winter 2026-27 cycle (terms include Fall 2026, Winter 2026, or Spring 2027)"
   - "No pure data entry, IT support, or desktop support roles"
+review_checklist:
+  - "Paid position, minimum $15/hr"
+  - "Open to F-1/CPT/international students (no sponsorship needed for co-op)"
+  - "Minimum 40 hours/week (or verified CPT-eligible part-time)"
+  - "Availability aligns with Sept 22, 2026 – March 26, 2027"
 preferred:
   - "Software engineering, full-stack, mobile, or AI/ML roles"
   - "Companies with Drexel co-op history"

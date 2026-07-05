@@ -14,7 +14,7 @@ import argparse
 import json
 import sys
 
-MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
+MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-haiku-4-5")
 
 PROFILE_PATH = Path(__file__).parent / "config" / "profile.yaml"
 
@@ -26,7 +26,13 @@ def score_job(job_description: str, profile: dict | None = None) -> ScoreResult:
     response = client.messages.create(
         model=MODEL,
         max_tokens=1024,
-        system=build_system_prompt(profile),
+        system=[
+            {
+                "type": "text",
+                "text": build_system_prompt(profile),
+                "cache_control": {"type": "ephemeral"},
+            }
+        ],
         tools=[SCORE_TOOL],
         tool_choice={"type": "tool", "name": "submit_score"},
         messages=[
@@ -46,14 +52,12 @@ def load_profile() -> dict:
     
 def build_system_prompt(profile: dict) -> str:
     tracks = "\n".join(
-        f"- {name}: {', '.join(skills)}"
-        for name, skills in profile["tracks"].items()
+        f"- {name}: {', '.join(skills)}" for name, skills in profile["tracks"].items()
     )
-    filters = "\n".join(f"- {f}" for f in profile["hard_filters"])
+    resumes = "\n".join(f"- {r['id']}: {r['emphasis']}" for r in profile["resumes"])
+    hard = "\n".join(f"- {f}" for f in profile["hard_filters"])
+    checklist = "\n".join(f"- {c}" for c in profile["review_checklist"])
     preferred = "\n".join(f"- {p}" for p in profile["preferred"])
-    resumes = "\n".join(
-        f"- {r['id']}: {r['emphasis']}" for r in profile["resumes"]
-    )
 
     return f"""You are the Scorer Agent in a co-op application pipeline for {profile['name']}, a {profile['year']} studying {profile['major']} at {profile['university']}.
 
@@ -63,13 +67,16 @@ Candidate skill tracks:
 Available resume files (choose one via resume_id):
 {resumes}
 
-Hard filters — if a posting violates ANY of these, set meets_hard_filters to false and fit_score to 1-2, regardless of how well the skills match:
-{filters}
+HARD FILTERS — you can judge these from the listing. If a posting clearly VIOLATES any, set meets_hard_filters to false and fit_score to 1-2:
+{hard}
 
-Preferred (nice-to-have, NOT dealbreakers — their absence should not tank the score):
+REVIEW CHECKLIST — these usually CANNOT be determined from a short listing (pay, visa, hours). Do NOT lower the score or fail the posting because these are unstated. Instead, list each one you cannot confirm in the `to_verify` field, so the human checks it during review:
+{checklist}
+
+Preferred (nice-to-have, not dealbreakers):
 {preferred}
 
-Score every posting 1-10 on genuine skill and role fit, separately from the hard filters. Be honest and specific — this feeds a human's go/no-go decision, so do not inflate scores to be encouraging. A mediocre-fit role should score 4-5, not 7. Call the submit_score tool with your assessment."""
+Scoring guidance: score fit_score 1-10 on genuine SKILL and ROLE fit only — how well the role matches the candidate's tracks and level. Do NOT penalize fit_score for missing pay/visa/hours info; that is what to_verify is for. A strong skills match with unstated pay should still score high (7-9) with pay noted in to_verify. Be honest: a genuinely weak skills match is a 4-5, an unrelated role is 1-3. Call submit_score."""
 
 def score_job(job_description: str, profile: dict | None = None) -> ScoreResult:
     """Score a single job posting against the candidate profile."""
@@ -79,7 +86,13 @@ def score_job(job_description: str, profile: dict | None = None) -> ScoreResult:
     response = client.messages.create(
         model=MODEL,
         max_tokens=1024,
-        system=build_system_prompt(profile),
+        system=[
+            {
+                "type": "text",
+                "text": build_system_prompt(profile),
+                "cache_control": {"type": "ephemeral"},
+            }
+        ],
         tools=[SCORE_TOOL],
         tool_choice={"type": "tool", "name": "submit_score"},
         messages=[
@@ -99,6 +112,15 @@ SCORE_TOOL = {
     "input_schema": {
         "type": "object",
         "properties": {
+            "to_verify": {
+                "type": "array",
+                "items": {"type": "string"},
+                "description": (
+                    "Items from the review checklist that CANNOT be confirmed from the listing "
+                    "and that the human should verify on the actual job posting (e.g. pay rate, "
+                    "F-1/CPT sponsorship, weekly hours). These do NOT affect the score."
+                ),
+            },
             "fit_score": {
                 "type": "integer",
                 "minimum": 1,
@@ -124,7 +146,7 @@ SCORE_TOOL = {
                 "description": "Which resume file best fits this posting.",
             },
         },
-        "required": ["fit_score", "reasoning", "red_flags", "meets_hard_filters", "resume_id"],
+        "required": ["to_verify", "fit_score", "reasoning", "red_flags", "meets_hard_filters", "resume_id"],
     },
 }
 
