@@ -53,6 +53,15 @@ def load_simplify_jobs(terms: set[str] | None = None) -> list[dict]:
         if terms and not (role_terms & terms):
             continue
 
+        posted = r.get("date_posted")
+        if posted:
+            try:
+                age_days = (datetime.datetime.now().timestamp() - float(posted)) / 86400
+                if age_days > 30:   # skip anything older than 30 days
+                    continue
+            except (ValueError, TypeError):
+                pass
+
         locations = r.get("locations", [])
         jobs.append({
             "id": r.get("id"),

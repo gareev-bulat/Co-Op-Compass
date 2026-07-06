@@ -394,14 +394,19 @@ export default function ApplicationsPage() {
 
                 {/* Link */}
                 {s.url && (
-                  <a
-                    href={s.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs text-blue-400 hover:underline"
-                  >
-                    View posting ↗
-                  </a>
+                  <div>
+                    <a
+                      href={s.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs text-blue-400 hover:underline"
+                    >
+                      View posting ↗
+                    </a>
+                    <span className="text-xs text-gray-500 ml-2">
+                      (may have expired — verify on company site)
+                    </span>
+                  </div>
                 )}
 
                 {/* Action buttons */}
