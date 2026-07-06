@@ -30,6 +30,7 @@ export default function ApplicationsPage() {
   const [mode, setMode] = useState<"manual" | "ai">("manual");
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<AiSuggestion[]>([]);
+  const [expanded, setExpanded] = useState<string | null>(null);
 
   const [applications, setApplications] = useState<Application[]>([]);
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -330,6 +331,64 @@ export default function ApplicationsPage() {
                         <li key={i}>{item}</li>
                       ))}
                     </ul>
+                  </div>
+                )}
+
+                {/* Tailoring — only if it was generated */}
+                {s.outreach_message && (
+                  <div className="mb-3">
+                    <button
+                      onClick={() =>
+                        setExpanded(
+                          expanded === s.external_job_id ? null : s.external_job_id
+                        )
+                      }
+                      className="text-xs font-semibold text-blue-400 hover:text-blue-300"
+                    >
+                      {expanded === s.external_job_id ? "▾ Hide" : "▸ Show"} AI tailoring
+                    </button>
+
+                    {expanded === s.external_job_id && (
+                      <div className="mt-3 rounded-lg bg-white/3 border border-white/5 p-4 space-y-3">
+                        {s.tailor_emphasis && (
+                          <p className="text-xs text-gray-300 italic">
+                            {s.tailor_emphasis}
+                          </p>
+                        )}
+
+                        {s.resume_edits && s.resume_edits.length > 0 && (
+                          <div>
+                            <p className="text-xs font-semibold text-gray-300 mb-1">
+                              Resume edits:
+                            </p>
+                            <ul className="list-disc list-inside text-xs text-gray-400 space-y-1">
+                              {s.resume_edits.map((e, i) => (
+                                <li key={i}>{e}</li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
+
+                        <div>
+                          <div className="flex items-center justify-between mb-1">
+                            <p className="text-xs font-semibold text-gray-300">
+                              Outreach draft:
+                            </p>
+                            <button
+                              onClick={() =>
+                                navigator.clipboard.writeText(s.outreach_message ?? "")
+                              }
+                              className="text-xs text-blue-400 hover:text-blue-300"
+                            >
+                              Copy
+                            </button>
+                          </div>
+                          <p className="text-xs text-gray-400 whitespace-pre-wrap">
+                            {s.outreach_message}
+                          </p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
 

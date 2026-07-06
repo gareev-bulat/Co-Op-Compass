@@ -43,4 +43,7 @@ export type AiSuggestion = {
   review_status: ReviewStatus;
   created_at?: string;
   updated_at?: string;
+  resume_edits?: string[];
+  tailor_emphasis?: string;
+  outreach_message?: string;
 };
