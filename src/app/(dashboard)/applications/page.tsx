@@ -351,7 +351,7 @@ export default function ApplicationsPage() {
                     onClick={() => submitSuggestion(s)}
                     className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500 transition"
                   >
-                    Apply
+                    Add to Tracker
                   </button>
                   <button
                     onClick={() => rejectSuggestion(s.external_job_id)}
