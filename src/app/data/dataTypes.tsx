@@ -24,3 +24,23 @@ export type Application = {
   external_application_id: string;
   created_at?: string;
 };
+
+export type ReviewStatus = "pending" | "submitted" | "rejected";
+
+export type AiSuggestion = {
+  external_job_id: string;
+  title: string;
+  company?: string;
+  location?: string;
+  url?: string;
+  terms?: string[];
+  fit_score: number;
+  reasoning?: string;
+  meets_hard_filters: boolean;
+  resume_id?: "mobile" | "general";
+  red_flags?: string[];
+  to_verify?: string[];
+  review_status: ReviewStatus;
+  created_at?: string;
+  updated_at?: string;
+};
