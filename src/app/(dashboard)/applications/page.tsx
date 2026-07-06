@@ -66,18 +66,84 @@ export default function ApplicationsPage() {
     fetchSuggestions();
   }, []);
 
-  async function updateSuggestion(jobId: string, status: "submitted" | "rejected") {
+  async function rejectSuggestion(jobId: string) {
     const supabase = createClient();
     const { error } = await supabase
       .from("ai_suggestions")
-      .update({ review_status: status, updated_at: new Date().toISOString() })
+      .update({ review_status: "rejected", updated_at: new Date().toISOString() })
       .eq("external_job_id", jobId);
 
     if (error) {
-      console.error("Failed to update suggestion:", error);
+      console.error("Failed to reject suggestion:", error);
       return;
     }
     setSuggestions((prev) => prev.filter((s) => s.external_job_id !== jobId));
+  }
+
+  async function submitSuggestion(s: AiSuggestion) {
+    const supabase = createClient();
+
+    // 1. Skip if this application already exists (dedup by external id)
+    const { data: existing } = await supabase
+      .from("applications")
+      .select("id")
+      .eq("external_application_id", s.external_job_id)
+      .single();
+
+    // 2. Find or create the company (mirrors add/page.tsx)
+    let companyId: string | undefined;
+    if (!existing && s.company) {
+      const { data: existingCompany } = await supabase
+        .from("companies")
+        .select("id")
+        .ilike("name", s.company)
+        .single();
+
+      companyId = existingCompany?.id;
+      if (!companyId) {
+        const { data: newCompany } = await supabase
+          .from("companies")
+          .insert({ name: s.company })
+          .select("id")
+          .single();
+        companyId = newCompany?.id;
+      }
+    }
+
+    // 3. Create the application (only if it didn't already exist)
+    if (!existing) {
+      const { error: insertError } = await supabase.from("applications").insert({
+        company_id: companyId,
+        role_title: s.title,
+        status: "Applied",
+        notes: s.reasoning ?? null,
+        external_application_id: s.external_job_id,
+      });
+      if (insertError) {
+        console.error("Failed to create application:", insertError);
+        return;
+      }
+    }
+
+    // 4. Mark the suggestion submitted + remove from queue + refresh applications
+    const { error: updateError } = await supabase
+      .from("ai_suggestions")
+      .update({ review_status: "submitted", updated_at: new Date().toISOString() })
+      .eq("external_job_id", s.external_job_id);
+
+    if (updateError) {
+      console.error("Failed to mark suggestion submitted:", updateError);
+      return;
+    }
+
+    setSuggestions((prev) => prev.filter((x) => x.external_job_id !== s.external_job_id));
+
+    // Re-fetch applications so Manual mode shows the new one immediately
+    const { data: apps } = await supabase
+      .from("applications")
+      .select("*")
+      .order("created_at", { ascending: false });
+    setApplications(apps ?? []);
   }
 
   const filteredApplications = applications.filter((a) => {
@@ -282,13 +348,13 @@ export default function ApplicationsPage() {
                 {/* Action buttons */}
                 <div className="flex items-center gap-2 mt-4 pt-4 border-t border-white/5">
                   <button
-                    onClick={() => updateSuggestion(s.external_job_id, "submitted")}
+                    onClick={() => submitSuggestion(s)}
                     className="flex-1 rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-500 transition"
                   >
                     Apply
                   </button>
                   <button
-                    onClick={() => updateSuggestion(s.external_job_id, "rejected")}
+                    onClick={() => rejectSuggestion(s.external_job_id)}
                     className="rounded-lg bg-white/5 px-4 py-2 text-sm font-semibold text-gray-300 hover:bg-white/10 transition"
                   >
                     Reject
