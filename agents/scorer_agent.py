@@ -3,6 +3,7 @@ import os
 
 from anthropic import Anthropic
 from dotenv import load_dotenv
+from resumes import load_all_resumes, available_resume_ids
 
 from schemas import ScoreResult
 
@@ -54,7 +55,10 @@ def build_system_prompt(profile: dict) -> str:
     tracks = "\n".join(
         f"- {name}: {', '.join(skills)}" for name, skills in profile["tracks"].items()
     )
-    resumes = "\n".join(f"- {r['id']}: {r['emphasis']}" for r in profile["resumes"])
+    resumes_text = "\n\n".join(
+        f"### resume_id: {rid}\n{text}"
+        for rid, text in load_all_resumes().items()
+    )
     hard = "\n".join(f"- {f}" for f in profile["hard_filters"])
     checklist = "\n".join(f"- {c}" for c in profile["review_checklist"])
     preferred = "\n".join(f"- {p}" for p in profile["preferred"])
@@ -64,8 +68,8 @@ def build_system_prompt(profile: dict) -> str:
 Candidate skill tracks:
 {tracks}
 
-Available resume files (choose one via resume_id):
-{resumes}
+The candidate has multiple resume versions. Read them and pick the single best-fit resume_id for this posting:
+{resumes_text}
 
 HARD FILTERS — you can judge these from the listing. If a posting clearly VIOLATES any, set meets_hard_filters to false and fit_score to 1-2:
 {hard}
@@ -142,7 +146,7 @@ SCORE_TOOL = {
             },
             "resume_id": {
                 "type": "string",
-                "enum": ["mobile", "general"],
+                "enum": available_resume_ids(),
                 "description": "Which resume file best fits this posting.",
             },
         },

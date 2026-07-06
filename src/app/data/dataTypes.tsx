@@ -37,7 +37,7 @@ export type AiSuggestion = {
   fit_score: number;
   reasoning?: string;
   meets_hard_filters: boolean;
-  resume_id?: "mobile" | "general";
+  resume_id?: string;
   red_flags?: string[];
   to_verify?: string[];
   review_status: ReviewStatus;
