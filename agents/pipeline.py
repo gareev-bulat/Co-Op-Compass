@@ -6,6 +6,7 @@ from simplify import load_simplify_jobs
 from scorer_agent import load_profile, score_job
 from score_cache import load_cache, save_cache
 from supabase_writer import write_suggestions
+from tailor_crew import tailor_and_draft
 
 
 def run_pipeline(min_score: int = 6, limit: int | None = None, write_to_db: bool = True) -> list[dict]:
@@ -49,6 +50,18 @@ def run_pipeline(min_score: int = 6, limit: int | None = None, write_to_db: bool
     print(f"\n{api_calls} new API calls ({len(scored) - api_calls} from cache)")
 
     scored.sort(key=lambda j: (j["meets_hard_filters"], j["fit_score"]), reverse=True)
+    # Tailor only strong matches (score >= threshold AND passes hard filters)
+    tailor_threshold = 6
+    for job in scored:
+        if job["fit_score"] >= tailor_threshold and job["meets_hard_filters"]:
+            try:
+                crew_out = tailor_and_draft(job, job["resume_id"])
+                job["resume_edits"] = crew_out["edits"]
+                job["tailor_emphasis"] = crew_out["emphasis"]
+                job["outreach_message"] = crew_out["outreach_message"]
+                print(f"  ✎ tailored: {job['title']}")
+            except Exception as e:
+                print(f"  [warn] tailoring failed for {job.get('title')}: {e}")
     strong = [j for j in scored if j["fit_score"] >= min_score and j["meets_hard_filters"]]
     print(f"{len(strong)} strong matches (score >= {min_score}, filters passed)")
     if write_to_db:

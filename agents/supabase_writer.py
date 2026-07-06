@@ -30,6 +30,9 @@ def to_row(job: dict) -> dict:
         "resume_id": job.get("resume_id"),
         "red_flags": job.get("red_flags", []),
         "to_verify": job.get("to_verify", []),
+        "resume_edits": job.get("resume_edits", []),
+        "tailor_emphasis": job.get("tailor_emphasis"),
+        "outreach_message": job.get("outreach_message"),
         # review_status intentionally omitted — DB defaults to 'pending'
         # so we don't overwrite a human's submitted/rejected decision on re-runs.
     }
