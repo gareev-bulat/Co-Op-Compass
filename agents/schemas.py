@@ -27,3 +27,15 @@ class JobPosting(BaseModel):
 class JobList(BaseModel):
     """Wrapper so CrewAI can enforce a list of postings."""
     jobs: list[JobPosting]
+
+
+class TailorResult(BaseModel):
+    """Output of the Tailor Agent — resume edit suggestions for one job."""
+    resume_id: str
+    edits: list[str]          # specific, actionable resume tweaks
+    emphasis: str              # one-line: what angle to lead with
+
+
+class OutreachResult(BaseModel):
+    """Output of the Outreach Agent — a drafted connection note."""
+    outreach_message: str
