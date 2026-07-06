@@ -5,9 +5,10 @@ from dotenv import load_dotenv
 from simplify import load_simplify_jobs
 from scorer_agent import load_profile, score_job
 from score_cache import load_cache, save_cache
+from supabase_writer import write_suggestions
 
 
-def run_pipeline(min_score: int = 6, limit: int | None = None) -> list[dict]:
+def run_pipeline(min_score: int = 6, limit: int | None = None, write_to_db: bool = True) -> list[dict]:
     load_dotenv()
     profile = load_profile()
 
@@ -50,11 +51,18 @@ def run_pipeline(min_score: int = 6, limit: int | None = None) -> list[dict]:
     scored.sort(key=lambda j: (j["meets_hard_filters"], j["fit_score"]), reverse=True)
     strong = [j for j in scored if j["fit_score"] >= min_score and j["meets_hard_filters"]]
     print(f"{len(strong)} strong matches (score >= {min_score}, filters passed)")
+    if write_to_db:
+        try:
+            n = write_suggestions(scored)
+            print(f"Wrote {n} suggestions to Supabase.")
+        except Exception as e:
+            print(f"[warn] failed to write to Supabase: {e}")
+
     return scored
 
 
 if __name__ == "__main__":
-    results = run_pipeline(limit=25)
+    results = run_pipeline(limit=10)
     print("\n=== TOP RESULTS ===")
     for j in results[:5]:
         print(f"[{j['fit_score']}/10] {j['title']} @ {j['company']} — resume: {j['resume_id']}")
